@@ -1,11 +1,11 @@
 // @ts-nocheck
 
 import { Search } from '../src/core/usecases/businessSearch';
-import SearchRepositoryMemory from '../src/data/repository/searchRepositoryMemory';
+import searchRepositoryRedis from '../src/core/repositories/searchRepositoryRedis';
 
 describe('Business Search Params', () => {
   it('should be possible to search', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     const parameters = { term: 'Test' };
@@ -15,7 +15,7 @@ describe('Business Search Params', () => {
   });
 
   it('should receive not found message', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     const parameters = { term: 'Some inexistent term' };
@@ -25,7 +25,7 @@ describe('Business Search Params', () => {
   });
 
   it('should not be possible search without term', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     expect.assertions(2);
@@ -40,7 +40,7 @@ describe('Business Search Params', () => {
   });
 
   it('should not be possible use a non-existent search parameter', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     expect.assertions(2);
@@ -55,7 +55,7 @@ describe('Business Search Params', () => {
   });
 
   it('should be possible to search with categories', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     const parameters = { term: 'Test', categories: 'A, B' };
@@ -66,7 +66,7 @@ describe('Business Search Params', () => {
   });
 
   it('should be possible to search with latitude and longitude', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     const parameters = { term: 'Test', latitude: '-23.5', longitude: '-46.6' };
@@ -76,7 +76,7 @@ describe('Business Search Params', () => {
   });
 
   it('should not be possible to exceed radius maximum value', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     expect.assertions(2);
@@ -94,7 +94,7 @@ describe('Business Search Params', () => {
   });
 
   it('should only be possible to specify sortBy as "best_match", "distance" or "price"', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     expect.assertions(2);
@@ -109,7 +109,7 @@ describe('Business Search Params', () => {
   });
 
   it('should only be possible specify sortBy "distance" if lat and lng are specified', async () => {
-    const searchRepository = new SearchRepositoryMemory();
+    const searchRepository = new searchRepositoryRedis();
     const search = new Search(searchRepository);
 
     const parameters = { term: 'Test', sortBy: 'distance' };
